@@ -16,7 +16,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     # No build step needed for this simple static website
     # Just update the deployment timestamp in the JavaScript file

@@ -39,7 +39,7 @@ jobs:
       with:
         role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
         role-session-name: gh-actions-${{ github.run_id }}
-        aws-region: "Global"
+        aws-region: "us-east-1"
 
     # Deploy to S3 bucket - directly sync the repository contents
     - name: Deploy to S3

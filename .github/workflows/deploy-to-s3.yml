@@ -1,0 +1,51 @@
+name: Deploy Static Website to S3
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # Allows manual triggering
+
+# OIDC permissions for keyless authentication
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # No build step needed for this simple static website
+    # Just update the deployment timestamp in the JavaScript file
+    - name: Update deployment timestamp
+      run: |
+        echo "// Updating timestamp for deployment on $(date)" >> js/script.js
+        echo "// Deployment ID: ${{ github.run_id }}" >> js/script.js
+
+    # # Configure AWS credentials
+    # - name: Configure AWS credentials
+    #   uses: aws-actions/configure-aws-credentials@v1
+    #   with:
+    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     aws-region: "ap-south-1"
+
+    # OIDC/IRSA Authentication - No more access keys!
+    - name: Configure AWS credentials via OIDC
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        role-session-name: gh-actions-${{ github.run_id }}
+        aws-region: "Global"
+
+    # Deploy to S3 bucket - directly sync the repository contents
+    - name: Deploy to S3
+      run: |
+        aws s3 sync ./ s3://${{ secrets.S3_BUCKET_NAME }}/ \
+          --delete \
+          --exclude ".git/*" \
+          --exclude ".github/*" \
+          --exclude "README.md" 

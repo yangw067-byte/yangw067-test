@@ -1,26 +1,38 @@
-// Set current date as deployment date
+// Set deployment date from GitHub Actions workflow
 document.addEventListener('DOMContentLoaded', function() {
     updateDeploymentDate();
     
     // Add event listener to the update button
     document.getElementById('update-btn').addEventListener('click', function() {
-        updateDeploymentDate();
         animatePipeline();
     });
 });
 
 // Update the deployment date
 function updateDeploymentDate() {
-    const now = new Date();
-    const options = { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    };
-    const formattedDate = now.toLocaleDateString('en-US', options);
-    document.getElementById('deploy-date').textContent = formattedDate;
+    if (typeof DEPLOYMENT_INFO !== 'undefined') {
+        const deployDate = new Date(DEPLOYMENT_INFO.date);
+        const options = { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZoneName: 'short'
+        };
+        document.getElementById('deploy-date').textContent = deployDate.toLocaleDateString('en-US', options);
+    } else {
+        // Fallback to current time if deployment info not available
+        const now = new Date();
+        const options = { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        document.getElementById('deploy-date').textContent = now.toLocaleDateString('en-US', options);
+    }
 }
 
 // Animate the pipeline steps

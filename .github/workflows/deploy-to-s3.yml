@@ -24,11 +24,16 @@ jobs:
         uses: actions/checkout@v4
 
       # No build step needed for this simple static website
-      # Just update the deployment timestamp in the JavaScript file
+      # Create a deployment info JavaScript file with timestamp
       - name: Update deployment timestamp
         run: |
-          echo "// Updating timestamp for deployment on $(date)" >> js/script.js
-          echo "// Deployment ID: ${{ github.run_id }}" >> js/script.js
+          cat > js/deployment-info.js << 'EOF'
+          const DEPLOYMENT_INFO = {
+            date: '${{ github.event.head_commit.timestamp }}',
+            runId: '${{ github.run_id }}',
+            commit: '${{ github.sha }}'
+          };
+          EOF
 
       # # Configure AWS credentials
       # - name: Configure AWS credentials

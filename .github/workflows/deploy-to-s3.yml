@@ -50,7 +50,13 @@ jobs:
             date: '${{ github.event.head_commit.timestamp }}',
             runId: '${{ github.run_id }}',
             commit: '${{ github.sha }}',
-         };
+             timestamps: {
+              code: '${{ env.CODE_TIMESTAMP }}',
+              test: '${{ env.TEST_TIMESTAMP }}',
+              build: '${{ env.BUILD_TIMESTAMP }}',
+              deploy: '${{ env.DEPLOY_TIMESTAMP }}'
+            }
+          };
           EOF
           echo "✓ deployment-info.js created successfully"
           cat js/deployment-info.js

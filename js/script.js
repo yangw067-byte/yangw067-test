@@ -1,7 +1,7 @@
 // Set deployment date from GitHub Actions workflow
 document.addEventListener('DOMContentLoaded', function () {
     // Small delay to ensure deployment-info.js is loaded
-    setTimeout(function() {
+    setTimeout(function () {
         updateDeploymentDate();
         updatePipelineTimestamps();
     }, 100);
@@ -42,10 +42,10 @@ function updateDeploymentDate() {
 // Update pipeline stage timestamps
 function updatePipelineTimestamps() {
     console.log('Checking DEPLOYMENT_INFO:', typeof DEPLOYMENT_INFO !== 'undefined' ? 'Found' : 'Not found');
-    
+
     if (typeof DEPLOYMENT_INFO !== 'undefined' && DEPLOYMENT_INFO.timestamps) {
         console.log('DEPLOYMENT_INFO timestamps:', DEPLOYMENT_INFO.timestamps);
-        
+
         const timeOptions = {
             hour: '2-digit',
             minute: '2-digit',
@@ -57,13 +57,13 @@ function updatePipelineTimestamps() {
         stages.forEach(stage => {
             const timestamp = DEPLOYMENT_INFO.timestamps[stage];
             console.log(`${stage} timestamp:`, timestamp);
-            
+
             if (timestamp) {
                 const date = new Date(timestamp);
                 const timeString = date.toLocaleTimeString('en-US', timeOptions);
                 const element = document.getElementById(stage + '-time');
                 console.log(`Setting ${stage}-time to:`, timeString, 'Element found:', !!element);
-                
+
                 if (element) {
                     element.textContent = timeString;
                 }

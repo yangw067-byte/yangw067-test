@@ -1,7 +1,15 @@
 FROM nginx:alpine
 
-# Copy application files to nginx default directory
-COPY . /usr/share/nginx/html/
+# Remove default nginx config
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copy custom nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy application files to nginx serving directory
+COPY index.html /usr/share/nginx/html/
+COPY css/ /usr/share/nginx/html/css/
+COPY js/ /usr/share/nginx/html/js/
 
 EXPOSE 80
 

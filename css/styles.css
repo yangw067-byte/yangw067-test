@@ -110,6 +110,13 @@ main {
     color: var(--dark-color);
 }
 
+.step-timestamp {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
 /* Deployment info */
 #deployment-info {
     margin-bottom: 1rem;
@@ -166,11 +173,11 @@ footer {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .pipeline-step {
         margin-bottom: 1rem;
     }
-    
+
     .pipeline-arrow {
         transform: rotate(90deg);
         margin: 0.5rem 0;

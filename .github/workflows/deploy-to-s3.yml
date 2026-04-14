@@ -23,15 +23,35 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # No build step needed for this simple static website
-      # Create a deployment info JavaScript file with timestamp
+      - name: Capture Code Stage Timestamp
+        run: echo "CODE_TIMESTAMP=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+
+      - name: Run Tests
+        run: echo "Running tests..."
+
+      - name: Capture Test Stage Timestamp
+        run: echo "TEST_TIMESTAMP=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+
+      - name: Build Website
+        run: echo "Building website..."
+
+      - name: Capture Build Stage Timestamp
+        run: echo "BUILD_TIMESTAMP=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+
+      # Create a deployment info JavaScript file with timestamps for each stage
       - name: Update deployment timestamp
         run: |
           cat > js/deployment-info.js << 'EOF'
           const DEPLOYMENT_INFO = {
             date: '${{ github.event.head_commit.timestamp }}',
             runId: '${{ github.run_id }}',
-            commit: '${{ github.sha }}'
+            commit: '${{ github.sha }}',
+            timestamps: {
+              code: '${{ env.CODE_TIMESTAMP }}',
+              test: '${{ env.TEST_TIMESTAMP }}',
+              build: '${{ env.BUILD_TIMESTAMP }}',
+              deploy: new Date().toISOString()
+            }
           };
           EOF
 

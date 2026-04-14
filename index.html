@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI/CD Demo - Static Website</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-rocket"></i> CI/CD Demo</h1>
+            <p>Deployed with GitHub Actions to AWS S3</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h2>About This Demo</h2>
+            <p>This is a simple static website automatically deployed to AWS S3 using GitHub Actions.</p>
+            <p>Every time code is pushed to the main branch, the CI/CD pipeline:</p>
+            <ul>
+                <li>Builds the website</li>
+                <li>Runs tests</li>
+                <li>Deploys to S3</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>Deployment Status</h2>
+            <div id="deployment-info">
+                <p><strong>Last Deployed:</strong> <span id="deploy-date">Loading...</span></p>
+                <p><strong>Version:</strong> <span id="version">1.0.0</span></p>
+                <p><strong>Environment:</strong> <span id="environment">Production</span></p>
+            </div>
+            <button id="update-btn" class="btn">Check Status</button>
+        </section>
+
+        <section class="card">
+            <h2>CI/CD Pipeline</h2>
+            <div class="pipeline">
+                <div class="pipeline-step">
+                    <i class="fas fa-code"></i>
+                    <span>Code</span>
+                </div>
+                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-step">
+                    <i class="fas fa-vial"></i>
+                    <span>Test</span>
+                </div>
+                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-step">
+                    <i class="fas fa-box"></i>
+                    <span>Build</span>
+                </div>
+                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-step">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span>Deploy</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Try It Yourself</h2>
+            <p>Make a change to this website and push it to the main branch to see the CI/CD pipeline in action!</p>
+            <p>Check the GitHub Actions tab to watch the deployment process.</p>
+            <div class="code-block">
+                <pre><code>git add .
+git commit -m "Update website content"
+git push origin main</code></pre>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CI/CD Demo | Created for educational purposes</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

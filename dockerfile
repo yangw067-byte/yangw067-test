@@ -1,4 +1,8 @@
 FROM nginx:alpine
-WORKDIR /mnt/d/YW_2026/Professional/Github/yangw067-test
-COPY . .
+
+# Copy application files to nginx default directory
+COPY . /usr/share/nginx/html/
+
 EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

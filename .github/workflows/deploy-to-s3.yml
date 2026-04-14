@@ -38,6 +38,9 @@ jobs:
       - name: Capture Build Stage Timestamp
         run: echo "BUILD_TIMESTAMP=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
 
+      - name: Capture Deploy Stage Timestamp
+        run: echo "DEPLOY_TIMESTAMP=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+
       # Create a deployment info JavaScript file with timestamps for each stage
       - name: Update deployment timestamp
         run: |
@@ -50,7 +53,7 @@ jobs:
               code: '${{ env.CODE_TIMESTAMP }}',
               test: '${{ env.TEST_TIMESTAMP }}',
               build: '${{ env.BUILD_TIMESTAMP }}',
-              deploy: new Date().toISOString()
+              deploy: '${{ env.DEPLOY_TIMESTAMP }}'
             }
           };
           EOF
